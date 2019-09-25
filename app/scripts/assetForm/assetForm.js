@@ -54,6 +54,8 @@ angular
                   if (site.length > 0) {
                     site = site[0];
                     site.buildings.push({name: f.attributes.BUILDING, id: parseInt(f.attributes.OBJECTID)});
+                    site.floors.push({name: f.attributes.FLOOR, id: parseInt(f.attributes.OBJECTID)});
+                    site.floorids.push({name: f.attributes.FLOORID, id: parseInt(f.attributes.OBJECTID)});
                   }
                 }
               });
@@ -127,6 +129,8 @@ angular
             site = site[0];
             $scope.site = site;
             $scope.buildings = site.buildings;
+            $scope.floors = site.floors;
+            $scope.floorids = site.floorids;
           }
           var type = $scope.types.filter(function (t) {
             return t.id === attributes['ASSET_TYPE_SUBTYPE'];
@@ -150,6 +154,28 @@ angular
                     $scope.building = bldg;
                   }
                 break;
+                case 'FLOOR':
+                  var flr = $scope.floors.filter(function (b) {
+                    return b.name === attributes['FLOOR'];
+                  });
+                  if (flr.length > 0) {
+                    flr = flr[0];
+                    f.value = flr;
+                    $scope.floor = flr;
+                  }
+                break;
+
+                case 'FLOORID':
+                  var flrid = $scope.floorids.filter(function (b) {
+                    return b.name === attributes['FLOORID'];
+                  });
+                  if (flrid.length > 0) {
+                    flrid = flrid[0];
+                    f.value = flrid;
+                    $scope.floorid = flrid;
+                  }
+                break;
+
                 default:
                   f.value = attributes[f.name];
 
@@ -274,6 +300,7 @@ angular
           if (f.length > 0) {
             f = f[0];
             $scope.building = f.value;
+
             ga('send', 'event', 'Building', 'Building Selected', $scope.building.name);
           }
         };
@@ -440,7 +467,19 @@ angular
         });
       }
     }
-  }])
+  }
+
+
+
+
+
+
+
+
+
+])
+
+
    .factory('assets', ['$http', '$q', function($http, $q){
     var service = {getTables:getTables, getTypes:getTypes, getSites:getSites, checkAssetExists:checkAssetExists, submitAsset:submitAsset},
       baseUrl = 'https://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/verticalassets/FeatureServer';
@@ -502,7 +541,7 @@ angular
         data: $.param(
           {
             token: token,
-            where: "ROOMID = '" + id + "'",
+            where: "FACILITYID = '" + id + "'",
             returnGeometry: false,
             outFields: '*',
             f: 'json'
@@ -527,4 +566,8 @@ angular
       .error(deferred.resolve);
       return deferred.promise;
     }
-  }]);
+  }
+
+
+
+]);

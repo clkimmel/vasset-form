@@ -18,7 +18,7 @@
 			<select name="field" ng-if="f.name === 'CAMPUS' && type != null" ng-model="f.value" ng-options="site as site.name for site in sites track by site.id | orderBy: 'name'" class="form-control input-lg" ng-change="siteSelected()" required>
 				<option value="">Select a campus...</option>
 			</select>
-			<select  name="field" ng-if="f.name === 'BUILDING' && type != null" ng-model="f.value" ng-options="building as building.name for building in buildings track by building.id | orderBy: 'name'" class="form-control input-lg" ng-disabled="!buildings || buildings.length == 0" ng-change="bldgSelected()" required>
+			<select  name="field" ng-if="f.name === 'BUILDING' && type != null" ng-model="f.value" ng-options="building as building.name for building in buildings track by building.id  | orderBy: 'name'" class="form-control input-lg" ng-disabled="!buildings || buildings.length == 0" ng-change="bldgSelected()" required>
 				<option value="">Select a building...</option>
       </select>
       <select  name="field" ng-if="f.name === 'FLOOR' && type != null" ng-model="f.value" ng-options="floor as floor.name for floor in floors track by floor.id | orderBy: 'name'" class="form-control input-lg" ng-disabled="!floors || floors.length == 0" ng-change="floorSelected()" required>
@@ -46,7 +46,7 @@
 				</button>
 			</div>
 			<!--free form input-->
-			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'CAMPUS' && f.name != 'BUILDING' && f.name!= 'FLOOR' && f.name!= 'FLOORID' && f.name!= 'FACILITYID' && type != null" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control input-lg uppercase" autocomplete="off"></input>
+			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'CAMPUS' && f.name != 'BUILDING' && f.name!= 'FLOOR' && f.name!= 'FLOORID' && f.name!= 'FACILITYID'  && type != null" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control input-lg uppercase" autocomplete="off"></input>
 	        <!--help blocks used for validation-->
 	        <!--max length message-->
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.maxlength">Only accepts {{f.length}} characters</span>
