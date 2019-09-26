@@ -38,6 +38,26 @@ angular
           }
           return tag;
         };
+
+        var filtval = function (dropdown) {
+          var tempval = dropdown;
+                  var previousValue = '';
+                   for(var i =0; i < tempval.length; i++)
+                      {
+                        currentValue = tempval[i].name;
+                        if(previousValue === currentValue) // Will be true on the first hit as previousValue == ''.
+                        {
+                         // console.log(tempval[i].name);
+                          tempval.splice(i,1);
+                          i=i-1;
+
+                        }
+                        previousValue = tempval[i].name; // Assign previousValue the current value.
+                      }
+            return tempval;
+
+          };
+
         var getSites = function (token) {
             assets.getSites(token).then(function (data) {
               $scope.sites = [];
@@ -279,9 +299,9 @@ angular
               if (f.name === 'CAMPUS') {
                 $scope.site = f.value;
                 ga('send', 'event', 'Site', 'Site Selected', $scope.site.name);
-                $scope.buildings = f.value.buildings;
-                $scope.floors = f.value.floors;
-                $scope.floorids = f.value.floorids;
+                $scope.buildings = filtval(f.value.buildings);
+                $scope.floors = filtval(f.value.floors);
+                $scope.floorids = filtval(f.value.floorids) ;
 
               } else if (f.name === 'BUILDING') {
                 f.value = undefined;
