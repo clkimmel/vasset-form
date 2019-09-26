@@ -320,6 +320,7 @@ angular
           if (f.length > 0) {
             f = f[0];
             $scope.building = f.value;
+            //$scope.floors = filtval(f.value.floors);
 
             ga('send', 'event', 'Building', 'Building Selected', $scope.building.name);
           }
@@ -333,6 +334,7 @@ angular
             f = f[0];
             $scope.floor = f.value;
             ga('send', 'event', 'Building', 'Building Selected', $scope.floor.name);
+           // $scope.floorids = filtval(f.value.floorids) ;
           }
         };
 
