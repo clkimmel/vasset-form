@@ -40,21 +40,16 @@ angular
         };
 
         var filtval = function (dropdown) {
-          var tempval = dropdown;
-                  var previousValue = '';
-                   for(var i =0; i < tempval.length; i++)
-                      {
-                        currentValue = tempval[i].name;
-                        if(previousValue === currentValue) // Will be true on the first hit as previousValue == ''.
-                        {
-                         // console.log(tempval[i].name);
-                          tempval.splice(i,1);
-                          i=i-1;
+          var dups = [];
+          var uniqueval = dropdown.filter(function(el){
+            if (dups.indexOf(el.name) == -1){
+                dups.push(el.name);
+                return true;
+            }
 
-                        }
-                        previousValue = tempval[i].name; // Assign previousValue the current value.
-                      }
-            return tempval;
+            return false;
+          })
+          return uniqueval;
 
           };
 
