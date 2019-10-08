@@ -29,6 +29,10 @@
 				<option value="">Select a floor Id...</option>
       </select>
 
+      <select  name="field" ng-if="f.name === 'ROOMID' && type != null" ng-model="f.value" ng-options="roomid as roomid.name for roomid in roomids track by roomid.id | orderBy: 'name'" class="form-control input-lg" ng-disabled="!floorids || floorids.length == 0" ng-change="roomIdSelected()" required>
+				<option value="">Select room Id...</option>
+      </select>
+
 			<!--domains-->
 			<select name="field" ng-if="f.domain && type != null" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues" class="form-control input-lg" ng-required="{{!f.nullable}}">
 				<option value="">Select a value...</option>
@@ -39,14 +43,13 @@
 			</div>
 			<!--asset tag-->
 			<div ng-if="f.name === 'FACILITYID'">
-				<div class="pull-left tag-prefix">{{prefix}} - </div>
 				<input name="field" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f, $event)" ng-focus="inputFocus(f)" class="form-control tag-input input-lg" ng-pattern="/^\d+$/" autocomplete="off"></input>
 				<button type="button" class="btn btn-default btn-lg searchButton">
 				  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
 			</div>
 			<!--free form input-->
-			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'CAMPUS' && f.name != 'BUILDING' && f.name!= 'FLOOR' && f.name!= 'FLOORID' && f.name!= 'FACILITYID'  && type != null" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control input-lg uppercase" autocomplete="off"></input>
+			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'CAMPUS' && f.name != 'BUILDING' && f.name!= 'FLOOR' && f.name!= 'FLOORID' && f.name!= 'ROOMID' && f.name!= 'FACILITYID'  && type != null" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control input-lg uppercase" autocomplete="off"></input>
 	        <!--help blocks used for validation-->
 	        <!--max length message-->
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.maxlength">Only accepts {{f.length}} characters</span>
