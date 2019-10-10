@@ -371,7 +371,7 @@ angular
         };
         $scope.siteSelected = function () {
           var flds = $scope.fields.filter(function (f) {
-            return f.name === 'CAMPUS' || f.name === 'BUILDING' || f.name === 'FLOOR' || f.name === 'FLOORID';
+            return f.name === 'CAMPUS' || f.name === 'BUILDING' || f.name === 'FLOOR' || f.name === 'ROOMNAME';
           });
           if (flds.length > 0) {
             angular.forEach(flds, function (f) {
@@ -383,37 +383,58 @@ angular
                // $scope.floorids = filtval(f.value.buildings[0].floors[0].floorids) ;
 
               } else if (f.name === 'BUILDING') {
-             //   f.value = undefined;
+                f.value = undefined;
               } else if (f.name === 'FLOOR') {
-             //   f.value = undefined;
-              } else if (f.name === 'FLOORID') {
-             //   f.value = undefined;
+                f.value = undefined;
+              } else if (f.name === 'ROOMNAME') {
+                f.value = undefined;
               }
             });
           }
         };
         $scope.bldgSelected = function () {
-          var f = $scope.fields.filter(function (f) {
-            return f.name === 'BUILDING';
+          var flds = $scope.fields.filter(function (f) {
+            return f.name === 'BUILDING' || f.name === 'FLOOR' || f.name === 'ROOMNAME';
           });
-          if (f.length > 0) {
-            f = f[0];
-            $scope.building= f.value;
-            $scope.floors = filtval(f.value.floors);
+          if (flds.length > 0) {
+            angular.forEach(flds, function (f) {
+              if (f.name === 'BUILDING') {
+                //f = f[0];
+                $scope.building= f.value;
+                $scope.floors = filtval(f.value.floors);
+
+              } else if (f.name === 'FLOOR') {
+                f.value = undefined;
+              } else if (f.name === 'ROOMNAME') {
+                f.value = undefined;
+              }
+
+            });
+
+
 
             ga('send', 'event', 'Building', 'Building Selected', $scope.building.name);
           }
         };
 
         $scope.floorSelected = function () {
-          var f = $scope.fields.filter(function (f) {
-            return f.name === 'FLOOR';
+          var flds = $scope.fields.filter(function (f) {
+            return f.name === 'FLOOR' || f.name === 'ROOMNAME';
           });
-          if (f.length > 0) {
-            f = f[0];
-            $scope.floor = f.value;
-            //ga('send', 'event', 'Building', 'Building Selected', $scope.floor.name);
-            $scope.roomnames = filtval(f.value.roomnames) ;
+          if (flds.length > 0) {
+            angular.forEach(flds, function (f) {
+              if (f.name === 'FLOOR') {
+               // f = f[0];
+                $scope.floor = f.value;
+                $scope.roomnames = filtval(f.value.roomnames) ;
+              }else if (f.name === 'ROOMNAME') {
+                f.value = undefined;
+              }
+
+
+            });
+
+
           }
         };
 
