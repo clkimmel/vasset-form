@@ -59,8 +59,7 @@ angular
               var siteNames = [];
               var bldgs = [];
               var flrs = [];
-              var flrId= [];
-              var rmId= [];
+              var rmname= [];
               var arrLength;
               var arrflrLength;
               var arrflrIdLength;
@@ -69,14 +68,12 @@ angular
                 if (siteNames.indexOf(f.attributes.CAMPUS) === -1) {
                   bldgs = [];
                   flrs = [];
-                  flrId= [];
-                  rmId= [];
-                  $scope.sites.push({name: f.attributes.CAMPUS, id: parseInt(f.attributes.OBJECTID), buildings:[{name: f.attributes.BUILDING, id: parseInt(f.attributes.OBJECTID), bid: f.attributes.BUILDINGID ,floors:[{name: f.attributes.FLOOR, id: parseInt(f.attributes.OBJECTID),floorids:[{name: f.attributes.FLOORID, id: parseInt(f.attributes.OBJECTID), roomids:[{name: f.attributes.ROOMID, id: parseInt(f.attributes.OBJECTID)}]}] }] }]  })
+                  rmname= [];
+                  $scope.sites.push({name: f.attributes.CAMPUS, id: parseInt(f.attributes.OBJECTID), buildings:[{name: f.attributes.BUILDING, id: parseInt(f.attributes.OBJECTID), bid: f.attributes.BUILDINGID ,floors:[{name: f.attributes.FLOOR, id: parseInt(f.attributes.OBJECTID),roomnames:[{name: f.attributes.ROOMNAME, id: parseInt(f.attributes.OBJECTID),roomid: f.attributes.ROOMID, floorid: f.attributes.FLOORID, roomtype:f.attributes.ROOMTYPE }] }] }]  })
                   bldgs.push(f.attributes.BUILDING);
                   siteNames.push(f.attributes.CAMPUS);
                   flrs.push(f.attributes.FLOOR);
-                  flrId.push(f.attributes.FLOORID);
-                  rmId.push(f.attributes.ROOMID);
+                  rmname.push(f.attributes.ROOMNAME);
                 } else {
                   var site = $scope.sites.filter(function (s) {
                     return s.name === f.attributes.CAMPUS;
@@ -86,16 +83,13 @@ angular
 
                     if(bldgs.indexOf(f.attributes.BUILDING) === -1){
                       flrs = [];
-                      flrId= [];
-                      rmId= [];
-                      site.buildings.push({name: f.attributes.BUILDING, id: parseInt(f.attributes.OBJECTID) , bid: f.attributes.BUILDINGID, floors:[{name: f.attributes.FLOOR, id: parseInt(f.attributes.OBJECTID),floorids:[{name: f.attributes.FLOORID, id: parseInt(f.attributes.OBJECTID), roomids:[{name: f.attributes.ROOMID, id: parseInt(f.attributes.OBJECTID)}]}] }]});
+                      rmname= [];
+                      site.buildings.push({name: f.attributes.BUILDING, id: parseInt(f.attributes.OBJECTID), bid: f.attributes.BUILDINGID ,floors:[{name: f.attributes.FLOOR, id: parseInt(f.attributes.OBJECTID),roomnames:[{name: f.attributes.ROOMNAME, id: parseInt(f.attributes.OBJECTID),roomid: f.attributes.ROOMID, floorid: f.attributes.FLOORID, roomtype:f.attributes.ROOMTYPE }] }] });
                       bldgs.push(f.attributes.BUILDING);
                       flrs.push(f.attributes.FLOOR);
-                      flrId.push(f.attributes.FLOORID);
-                      rmId.push(f.attributes.ROOMID);
+                      rmname.push(f.attributes.ROOMNAME);
                       arrLength = 0;
                     } else{
-
                         var bldg = $scope.sites.filter(function (s) {
                         arrLength = (s.buildings.length - 1);
                         return s.buildings[arrLength].name === f.attributes.BUILDING;
@@ -104,12 +98,10 @@ angular
 
                           bldg = bldg[0];
                           if(flrs.indexOf(f.attributes.FLOOR) === -1){
-                            flrId= [];
-                            rmId= [];
-                            site.buildings[arrLength].floors.push({name: f.attributes.FLOOR, id: parseInt(f.attributes.OBJECTID), floorids:[{name: f.attributes.FLOORID, id: parseInt(f.attributes.OBJECTID), roomids:[{name: f.attributes.ROOMID, id: parseInt(f.attributes.OBJECTID)}]}] });
+                            rmname= [];
+                            site.buildings[arrLength].floors.push({name: f.attributes.FLOOR, id: parseInt(f.attributes.OBJECTID),roomnames:[{name: f.attributes.ROOMNAME, id: parseInt(f.attributes.OBJECTID),roomid: f.attributes.ROOMID, floorid: f.attributes.FLOORID, roomtype:f.attributes.ROOMTYPE }] });
                             flrs.push(f.attributes.FLOOR);
-                            flrId.push(f.attributes.FLOORID);
-                            rmId.push(f.attributes.ROOMID);
+                            rmname.push(f.attributes.ROOMNAME);
                           }else {
                              var bldg_flr = $scope.sites.filter(function (t) {
                               arrflrLength = (t.buildings[arrLength].floors.length - 1);
@@ -117,34 +109,17 @@ angular
                           });
                           if (bldg_flr.length >0){
                             bldg_flr = bldg_flr[0];
-                            if(flrId.indexOf(f.attributes.FLOORID) === -1){
-                              rmId= [];
-                              site.buildings[arrLength].floors[arrflrLength].floorids.push({name: f.attributes.FLOORID, id: parseInt(f.attributes.OBJECTID), roomids:[{name: f.attributes.ROOMID, id: parseInt(f.attributes.OBJECTID)}]});
-                              flrId.push(f.attributes.FLOORID);
-                              rmId.push(f.attributes.ROOMID);
+                            if(rmname.indexOf(f.attributes.ROOMNAME) === -1){
+                              site.buildings[arrLength].floors[arrflrLength].roomnames.push({name: f.attributes.ROOMNAME, id: parseInt(f.attributes.OBJECTID),roomid: f.attributes.ROOMID, floorid: f.attributes.FLOORID, roomtype:f.attributes.ROOMTYPE });
+                              rmname.push(f.attributes.ROOMNAME);
                             }else{
 
-                              var flr_flrid = $scope.sites.filter(function (t) {
-                                arrflrIdLength = (t.buildings[arrLength].floors[arrflrLength].floorids.length - 1);
-                                return t.buildings[arrLength].floors[arrflrLength].floorids[arrflrIdLength].name === f.attributes.FLOORID;
-
+                              var flr_roomname = $scope.sites.filter(function (t) {
+                                arrflrIdLength = (t.buildings[arrLength].floors[arrflrLength].roomnames.length - 1);
+                                return t.buildings[arrLength].floors[arrflrLength].roomnames[arrflrIdLength].name === f.attributes.ROOMNAME;
                               });
-                              if (flr_flrid.length >0){
-                                flr_flrid = flr_flrid[0];
-                                if(rmId.indexOf(f.attributes.ROOMID) === -1){
-                                  site.buildings[arrLength].floors[arrflrLength].floorids[arrflrIdLength].roomids.push({name: f.attributes.ROOMID, id: parseInt(f.attributes.OBJECTID)});
-                                  rmId.push(f.attributes.ROOMID);
-                                }else{
-                                  var flrId_rmId = $scope.sites.filter(function (t){
-                                    arrrmIdLength = (t.buildings[arrLength].floors[arrflrLength].floorids[arrflrIdLength].length - 1);
-                                    return t.buildings[arrLength].floors[arrflrLength].floorids[arrflrIdLength].roomids[arrrmIdLength].name === f.attributes.ROOMID;
-
-                                  });
-                                  if (flrId_rmId  >0){
-                                    flrId_rmId = flrId_rmId [0];
-                                  }
-
-                                }
+                              if (flr_roomname.length >0){
+                                flr_roomname = flr_roomname[0];
 
 
                               }
@@ -162,7 +137,7 @@ angular
                   }
                 }
               });
-              //console.log($scope.sites)
+            //  console.log($scope.sites)
             });
 
         };
@@ -254,22 +229,15 @@ angular
               if (flr.length > 0) {
                 flr = flr[0];
                 $scope.floor = flr;
-                $scope.floorids = flr.floorids;
+                $scope.roomnames = flr.roomnames;
 
-                var flrid = $scope.floorids.filter(function(b){
-                  return b.name === attributes['FLOORID'];
+                var roomnm = $scope.roomnames.filter(function(b){
+                  return b.name === attributes['ROOMNAME'];
 
                 });
-                if (flrid.length > 0){
-                  flrid = flrid[0];
-                  $scope.floorid = flrid;
-                  $scope.roomids = flrid.roomids;
-
-                  var rmid = $scope.roomids.filter(function(b){
-                    return b.name === attributes['ROOMID'];
-                  });
-                  rmid = rmid[0];
-                  $scope.roomid = rmid;
+                if (roomnm.length > 0){
+                  roomnm = roomnm[0];
+                  $scope.roomnm = roomnm;
 
 
                 }
@@ -303,11 +271,8 @@ angular
                     f.value = flr;
                 break;
 
-                case 'FLOORID':
-                  f.value = flrid;
-                break;
-                case 'ROOMID':
-                  f.value = rmid;
+                case 'ROOMNAME':
+                  f.value = roomnm;
                 break;
 
                 default:
@@ -448,29 +413,19 @@ angular
             f = f[0];
             $scope.floor = f.value;
             //ga('send', 'event', 'Building', 'Building Selected', $scope.floor.name);
-            $scope.floorids = filtval(f.value.floorids) ;
+            $scope.roomnames = filtval(f.value.roomnames) ;
           }
         };
 
-        $scope.floorIdSelected = function () {
+        $scope.roomnmSelected = function () {
           var f = $scope.fields.filter(function (f) {
-            return f.name === 'FLOORID';
+            return f.name === 'ROOMNAME';
           });
           if (f.length > 0) {
             f = f[0];
-            $scope.floorid = f.value;
-            $scope.roomids = filtval(f.value.roomids) ;
+            $scope.roomnm = f.value;
+          //  $scope.roomnames = filtval(f.value.roomnames) ;
            // ga('send', 'event', 'Building', 'Building Selected', $scope.floorid.name);
-          }
-        };
-
-        $scope.roomIdSelected = function () {
-          var f = $scope.fields.filter(function (f) {
-            return f.name === 'ROOMID';
-          });
-          if (f.length > 0) {
-            f = f[0];
-            $scope.roomid = f.value;
           }
         };
 
@@ -552,13 +507,19 @@ angular
                 case 'FLOOR':
                   feature.attributes[f.name] = $scope.floor.name;
                 break;
+                case 'ROOMNAME':
+                  feature.attributes[f.name] = $scope.roomnm.name;
+                break;
 
                 case 'FLOORID':
-                  feature.attributes[f.name] = $scope.floorid.name;
+                  feature.attributes[f.name] = $scope.roomnm.floorid;
                 break;
 
                 case 'ROOMID':
-                  feature.attributes[f.name] = $scope.roomid.name;
+                  feature.attributes[f.name] = $scope.roomnm.roomid;
+                break;
+                case 'ROOMTYPE':
+                  feature.attributes[f.name] = $scope.roomnm.roomtype;
                 break;
 
                 case 'BUILDING':
